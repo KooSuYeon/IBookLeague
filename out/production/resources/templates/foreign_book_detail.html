@@ -1,0 +1,72 @@
+<!--<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">-->
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+
+    <div class="d-flex justify-content-center">
+        <h2 class="text-light" th:text="${foreignBook.subject}"></h2>
+    </div>
+
+    <div class="my-3 d-flex justify-content-center text-light">
+        <ul>
+            <li th:text="'저자: ' + ${foreignBook.author}"></li>
+            <li th:text="'책내용: ' + ${foreignBook.content}"></li>
+        </ul>
+    </div>
+
+    <div class="my-3"></div>
+    <!-- 별접 입력 -->
+    <div class="d-flex justify-content-center">
+        <h5 class="text-light" th:text="|별점을 선택해주세요|"></h5>
+    </div>
+    <div class="d-flex justify-content-center" style="white-space: pre-line;">
+        <form th:action="@{|/ibookleague/foreignbook/rate/create/${foreignBook.id}|}" method="post">
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="rate" id="rate1" value="1" autocomplete="off">
+                <label class="btn btn-outline-primary" for="rate1">1</label>
+
+                <input type="radio" class="btn-check" name="rate" id="rate2" value="2" autocomplete="off">
+                <label class="btn btn-outline-primary" for="rate2">2</label>
+
+                <input type="radio" class="btn-check" name="rate" id="rate3" value="3" autocomplete="off">
+                <label class="btn btn-outline-primary" for="rate3">3</label>
+
+                <input type="radio" class="btn-check" name="rate" id="rate4" value="4" autocomplete="off">
+                <label class="btn btn-outline-primary" for="rate4">4</label>
+
+                <input type="radio" class="btn-check" name="rate" id="rate5" value="5" autocomplete="off">
+                <label class="btn btn-outline-primary" for="rate5">5</label>
+
+            </div>
+            <div class="d-flex justify-content-center">
+                <input type="submit" value="별점등록" class="btn btn-primary my-2">
+            </div>
+        </form>
+    </div>
+
+    <!-- 별점 갯수 표시 -->
+    <h5 class="border-bottom my-3 py-2 text-light" th:text="|${#lists.size(foreignBook.rateList)}개의 별점이 있습니다.|"></h5>
+    <div class="my-3" th:each="foreignRate : ${foreignBook.rateList}">
+        <ul>
+            <li class="text-light" th:text="${foreignRate.rate}"></li>
+        </ul>
+    </div>
+
+    <!-- 리뷰 갯수 표시 -->
+    <h5 class="border-bottom my-3 py-2 text-light" th:text="|${#lists.size(foreignBook.reviewList)}개의 리뷰가 있습니다.|"></h5>
+    <div class="card my-3 bg-secondary" th:each="foreignReview : ${foreignBook.reviewList}">
+        <div class="card-body">
+            <div class="card-text text-dark" style="white-space: pre-line;" th:text="${foreignReview.content}"></div>
+        </div>
+    </div>
+
+    <!-- 리뷰 입력 -->
+    <form th:action="@{|/ibookleague/foreignreview/create/${foreignBook.id}|}" method="post">
+        <textarea name="content" id="content" rows="15" class="form-control bg-secondary"></textarea>
+        <div class="d-flex justify-content-center">
+            <input type="submit" value="리뷰등록" class="btn btn-primary my-2">
+        </div>
+    </form>
+
+
+</div>
+</html>

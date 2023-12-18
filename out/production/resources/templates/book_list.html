@@ -1,0 +1,46 @@
+<!--<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">-->
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+
+    <div class="d-flex justify-content-center">
+        <div class="my-3" style="border-radius: 1rem;">
+            <h1 class="bd-title mb-0 text-light">한국문학 리스트</h1>
+        </div>
+    </div>
+
+    <div class="mb-3">
+    <table class="my-3 table text-center">
+        <thead class="table-light">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>저자</th>
+<!--            <th>삭제</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book, loop : ${bookList}">
+            <td class="text-light" th:text="${loop.count}"></td>
+            <td>
+                <a th:href="@{|/ibookleague/book/detail/${book.id}|}" th:text="${book.subject}"></a>
+            </td>
+            <td class="text-light" th:text="${book.author}"></td>
+<!--            <td href="javascript:void(0);" th:data-uri="@{|/ibookleague/book/delete/${book.id}|}"-->
+<!--                class="delete btn btn-sm btn-outline-secondary" th:text="삭제"></td>-->
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+
+<script layout:fragment="script" type='text/javascript'>
+    const delete_elements = document.getElementsByClassName("delete");
+    Array.from(delete_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            if(confirm("정말로 삭제하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+</script>
+</html>
